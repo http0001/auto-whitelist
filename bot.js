@@ -1,27 +1,24 @@
-const discord = require("discord.js") // Not Important
+const discord = require("discord.js")
 
-const client = new discord.Client() // Not Important
+const client = new discord.Client()
 const db = require("quick.db")
 const axios = require('axios');
 const Express = require("express");
 const App = Express();
-// ----- Settings ----- \\
-const Settings = {
-  //THIS IS IMPORTANT\\
-  GUILD_ID: "955793900101042196", // THIS IS VERY IMPORTANT, THIS IS THE ID OF YOUR SERVER, SEARCH ON YOUTUBE HOW TO GET IT IF YOU DONT KNOW HOW
-  OWNER_ID: "755705944813600779", // THIS IS VERY IMPORTANT, THIS IS THE ID OF YOUR PROFILE, SEARCH ON YOUTUBE HOW TO GET IT IF YOU DONT KNOW HOW
-  Shoppy_API_KEY: "p3kZmAhUuzRdXO4Z9DNUB94HP1RpaWDRE87ibF4RievtiQdonZ", // Create a Shoppy account If you haven't, then go to https://shoppy.gg/user/settings and look for your "API-KEY".
-  Whitelisted_Role_ID: "968318085528424468", // When users use the !whitelist or !rewhitelist command, they get this role.
-  Blacklisted_Role_ID: "968318123000356864", // When users who are not whitelist use the !rewhitelist command with a buyers Shoppy Order ID, they get this role.
-  LogsChannel_Channel_ID: "967077559554699295", // Create a channel for logs when a user is whtelisted or uses a command!
-  //----------------\\
-  KeyDataStart: "Data_" ,// The Data for the keys
-  UsersDataStart: "UsersData_", // The Data for the users
-  KeyRobloxNameDataStart: "RobloxData_" // Data for rolbox users
-}
-// ----- Settings ----- \\
 
-App.get("/checkwl", (request, res) => {  // checks whitelist
+const Settings = {
+  GUILD_ID: "955793900101042196",
+  OWNER_ID: "755705944813600779",
+  Shoppy_API_KEY: "p3kZmAhUuzRdXO4Z9DNUB94HP1RpaWDRE87ibF4RievtiQdonZ",
+  Whitelisted_Role_ID: "968318085528424468",
+  Blacklisted_Role_ID: "968318123000356864",
+  LogsChannel_Channel_ID: "972161571801415712",
+  
+  KeyDataStart: "Data_",
+  UsersDataStart: "UsersData_",
+  KeyRobloxNameDataStart: "RobloxData_"
+}
+App.get("/check", (request, res) => {
    let ThereKey =  request.query.Key;
   let robloxUser = request.query.User;
   if(!ThereKey) {
@@ -36,7 +33,7 @@ App.get("/checkwl", (request, res) => {  // checks whitelist
   if(ShoppyIDS) {
     if (db.get(Settings.UsersDataStart+ThereKey)) {
       if (robloxUser === db.get(Settings.UsersDataStart+ThereKey)) {
-        res.send("Correct") // CHANGE THIS TO MAKE THE WHITELIST MORE SECURE!
+        res.send("Correct")
         return "Correct";
       }
       else
@@ -59,7 +56,7 @@ App.get("/checkwl", (request, res) => {  // checks whitelist
 })
 
 client.on("message", message => {
-const args = message.content.slice("-".length).trim().split(/ +/g); // Not Important
+const args = message.content.slice("!".length).trim().split(/ +/g); // Not Important
 const content = args.shift().toLowerCase(); // Not Important
 if (content === "whitelist") {
   const key = args[0]
@@ -180,4 +177,5 @@ if(content === "rewhitelist") {
     }
 }
 })
-client.login("OTY1ODU3OTk0NDY0MTk4Njc2.Yl5TWg.wVsHJb64LMjsCFCEogRLs4DvrpQ")
+
+client.login("OTY1ODU3OTk0NDY0MTk4Njc2.Yl5TWg.uP2pPpBPJLS7oTCVmOH-cSvr6X8")
